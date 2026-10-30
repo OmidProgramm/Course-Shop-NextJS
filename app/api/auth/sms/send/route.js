@@ -46,7 +46,6 @@ export async function POST(req){
         }else{
             // create new user
             await User.create({phone, otp:{code:otpCode,expiresAt: new Date(expiresAt)}})
-            
         }
 
         return NextResponse.json(
