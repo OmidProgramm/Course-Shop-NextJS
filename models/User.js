@@ -1,5 +1,5 @@
-import { models,model,Schema } from "mongoose";
-import { unique } from "next/dist/build/utils";
+import mongoose,{ models,model,Schema } from "mongoose";
+
 
 const userSchema = new Schema({
     phone:{
