@@ -99,19 +99,6 @@ export async function POST(req){
                 },
                 {status:200}
             );
-        
-       /*  res.setHeader(
-        "Set-Cookie",
-            cookie.stringifySetCookie({
-                name: "token",
-                value: String(token),
-                httpOnly: true,
-                path:'/',
-                maxAge: 5 * 60, 
-                sameSite:'strict'
-            }),
-        ); */
-
 
     } catch (error) {
         console.error("Error verifying OTP")

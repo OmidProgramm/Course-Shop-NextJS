@@ -1,0 +1,186 @@
+
+:root {
+    --primary: #3f64ff;
+    --success: #4caf50;
+    --bg: #f3f4f6;
+    --text: #323131;
+    --muted: #7b7b7b;
+    --radius: 8px;
+}
+
+/* Main layout */
+.authWrapper {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--bg);
+}
+
+/* Left gradient section */
+.left {
+    width: 60%;
+    min-height: 100vh;
+    background: linear-gradient(
+        270deg,
+        #ff5f6d,
+        #ffc371,
+        #47c6ff,
+        #6a11cb
+    );
+    background-size: 600% 600%;
+    animation: gradientMove 10s ease infinite;
+    border-radius: 0 200px 700px 0;
+}
+
+/* Right section */
+.right {
+    width: 50%;
+    min-height: 100vh;
+}
+
+/* Authentication form */
+.authForm {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(350px, calc(100% - 32px));
+    padding: 40px 25px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.authForm h2 {
+    text-align: center;
+    color: var(--text);
+}
+
+.authForm h3 {
+    color: #3d3d3d;
+    font-size: 18px;
+}
+
+.authForm p {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: var(--muted);
+}
+
+/* Inputs and buttons */
+.authForm input,
+.authForm button {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: var(--radius);
+    outline: none;
+    font-size: 16px;
+}
+
+.authForm input {
+    background-color: var(--bg);
+}
+
+.authForm button {
+    background-color: var(--primary);
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.authForm button:hover {
+    background-color: #294de0;
+}
+
+/* Back button */
+.authForm .gotoBack {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    margin: 0 0 10px auto;
+    padding: 5px;
+    border: 1px solid gray;
+    border-radius: var(--radius);
+    color: #4e4e4e;
+    cursor: pointer;
+}
+
+/* Resend OTP */
+.resendOtp {
+    margin-top: 20px;
+}
+
+.resendOtp button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--success);
+    color: #fff;
+    cursor: pointer;
+}
+
+.resendOtp p {
+    font-size: 13px;
+    color: #555;
+}
+
+.resend {
+    color: var(--primary);
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Gradient animation */
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .left {
+        display: none;
+    }
+
+    .right {
+        width: 100%;
+    }
+
+    .authForm {
+        position: relative;
+        top: auto;
+        left: auto;
+        transform: none;
+        margin: auto;
+    }
+
+    .authWrapper {
+        align-items: center;
+        padding: 20px 0;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .left {
+        animation: none;
+    }
+
+    .authForm button {
+        transition: none;
+    }
+}

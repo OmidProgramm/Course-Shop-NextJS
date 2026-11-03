@@ -5,7 +5,6 @@ import { NextResponse } from "next/server"
 // validate phone number
 const validatePhoneNumber = (phone) => /^0\d{10}$/.test(phone)
 
-
 export async function POST(req){
     try {
         const {phone} = await req.json()
