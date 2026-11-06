@@ -1,20 +1,22 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./AuthPage.module.css";
 import {IoMdArrowRoundBack} from 'react-icons/io';
 import OtpInputs from "@/components/features/auth/OtpInputs";
 import toast from "react-hot-toast";
+import Loader from "@/components/shared/Loader";
 
 export default function AuthPage(){
     const [phone, setPhone] = useState('');
     const [isCodeSent, setIsCodeSent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const [isOtpComplete, setIsOtpComplete] = useState(false);
     const [timer, setTimer] = useState(120);
+    const [isResendDisabled, setIsResendDisabled] = useState(true)
+    const [otp,setOtp] = useState(['','','','',''])
 
     const isPhoneValid = (phone) => /^0\d{10}$/.test(phone);
     const handleSendOtp = async ()=>{
-        /* setIsLoading(true);  */
+        setIsLoading(true);
         try {
             const res = await fetch("/api/auth/sms/send",{
                 method: 'POST',
@@ -32,12 +34,79 @@ export default function AuthPage(){
         } catch (error) {
             console.log(error)
         }finally{
-            /* setIsLoading(false); */
+            setIsLoading(false); 
         }
     }
-    const hadleBackToPhone = ()=>{}
-    const handleVerifyOtp = ()=>{}
 
+    const hadleBackToPhone = ()=>{
+        setOtp(['','','','','']);
+        setIsCodeSent(false);
+        setTimer(120)
+        setPhone('')
+    }
+    const handleVerifyOtp = async ()=>{
+        const otpCode = otp.join('')
+        try {
+            setIsLoading(true)
+            const response = await fetch("/api/auth/sms/verify",{
+                method: "POST",
+                headers:{"Content-Type": "application/json"},
+                credentials: 'include',
+                body: JSON.stringify({phone,otpCode})
+            });
+            const data = await response.json();
+            if(data.success){
+                toast.success('Login is successfully.')
+            }else{
+                if(response.status == 401){
+                    toast.error('OTP Code is invalid.')
+                }else if(response.status == 410){
+                    toast.error('OTP Code is expired.')
+                }else{
+                    toast.error('something is wrong in try')
+                }
+            }
+        } catch (error) {
+            toast.error('something is wrong in catch')
+        }finally{
+            setIsLoading(false)
+        }
+    }
+    const handleResendOtp = async ()=>{
+        
+        try {
+            const res = await fetch("/api/auth/sms/send",{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({phone})
+            })
+            const data = await res.json();
+            if(data.success){
+                toast.success('verify Code sent successfully.'); 
+                setOtp(['','','','',''])
+                setTimer(120)
+            }else{
+               toast.error('verify Code did not send.');
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const isOtpComplete = otp.every(input => input !== '')
+    useEffect(()=>{
+        let interval;
+        if(isCodeSent && timer > 0){
+            interval = setInterval(()=>{
+                setTimer(time => time - 1)
+            },1000)
+        }else if(timer == 0){
+            console.log('time out')
+        }
+
+        return ()=>{
+            clearInterval(interval)
+        }
+    },[isCodeSent,timer])
     return (
         <div className={styles.authWrapper}>
             <div className={styles.right}></div>
@@ -53,7 +122,7 @@ export default function AuthPage(){
                         onChange={(e)=>setPhone(e.target.value)}
                         />
                         { isLoading? (
-                            <Loading/>
+                            <Loader/>
                         ) : (
                             <button 
                             onClick={handleSendOtp}
@@ -72,7 +141,7 @@ export default function AuthPage(){
                         </div>
                         <p>confirm code {phone} sended</p>
                         <h3>enter confirm code</h3>
-                        <OtpInputs/>
+                        <OtpInputs otp={otp} setOtp={setOtp} />
                         {isLoading ? (
                             <Loader/>
                         ) : (
