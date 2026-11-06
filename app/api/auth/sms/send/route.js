@@ -35,7 +35,7 @@ export async function POST(req){
 
         // create confirm code
         const otpCode = Math.floor(Math.random() * 90000) + 10000
-        const expiresAt = new Date().getTime() + 180 * 1000 // expires time 3 MIN
+        const expiresAt = new Date().getTime() + 120 * 1000 // expires time 3 MIN
 
         if(user){
             // save confirm code & time in DB

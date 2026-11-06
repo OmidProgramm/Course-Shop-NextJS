@@ -88,7 +88,7 @@ export async function POST(req){
                 {
                     success:true,
                     message: 'OTP Code is accepted.',
-                    redirectTo: user.role === 'admin'? "/admin/dashboard" : '/profile',
+                    redirectTo: user.role === 'admin'? "/admin/dashboard": '/profile',
                     user: {
                         id: user._id.toString(),
                         phone: user.phone,

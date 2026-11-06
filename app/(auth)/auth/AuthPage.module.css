@@ -54,15 +54,20 @@
 .authForm h2 {
     text-align: center;
     color: var(--text);
+    margin-bottom: 12px;
+    padding: 12px;
 }
 
 .authForm h3 {
     color: #3d3d3d;
     font-size: 18px;
+    margin-bottom: 12px;
+    padding: 8px;
 }
 
 .authForm p {
-    margin-bottom: 10px;
+    padding: 8px;
+    margin-bottom: 8px;
     font-size: 15px;
     color: var(--muted);
 }
@@ -102,7 +107,7 @@
     align-items: center;
     width: 30px;
     height: 30px;
-    margin: 0 0 10px auto;
+    margin: 0 0 10px;
     padding: 5px;
     border: 1px solid gray;
     border-radius: var(--radius);
